@@ -1,0 +1,72 @@
+[gd_scene load_steps=15 format=3 uid="uid://b8awluilqgjhj"]
+
+[ext_resource type="Texture2D" uid="uid://cncettqlesle8" path="res://texture assets/2k_sun.jpg" id="1_l4o7m"]
+[ext_resource type="Script" uid="uid://cs1co542s6a42" path="res://mesh_instance_3d.gd" id="2_brsq0"]
+[ext_resource type="Texture2D" uid="uid://4hodd18xhmm4" path="res://texture assets/HDR_silver_and_gold_nebulae.hdr" id="3_brsq0"]
+[ext_resource type="Script" uid="uid://cxe5v1qb2vvqw" path="res://mercuryorbit.gd" id="3_o8g25"]
+[ext_resource type="Texture2D" uid="uid://byks6yx4tl2dw" path="res://texture assets/2k_mercury.jpg" id="3_y2jig"]
+[ext_resource type="Script" uid="uid://18bev5esmnuq" path="res://mercuryrotation.gd" id="5_nbcmm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y2jig"]
+albedo_texture = ExtResource("1_l4o7m")
+
+[sub_resource type="SphereMesh" id="SphereMesh_5fb6x"]
+material = SubResource("StandardMaterial3D_y2jig")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5fb6x"]
+albedo_texture = ExtResource("3_y2jig")
+
+[sub_resource type="SphereMesh" id="SphereMesh_brsq0"]
+material = SubResource("StandardMaterial3D_5fb6x")
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_y2jig"]
+panorama = ExtResource("3_brsq0")
+
+[sub_resource type="Sky" id="Sky_5fb6x"]
+sky_material = SubResource("PanoramaSkyMaterial_y2jig")
+
+[sub_resource type="Environment" id="Environment_o8g25"]
+background_mode = 2
+sky = SubResource("Sky_5fb6x")
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_nbcmm"]
+
+[node name="Node3D" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00462341, 0.0073005, -0.00904953)
+
+[node name="sunsphere" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -0.00962925, 0.00920153, -0.00580263)
+mesh = SubResource("SphereMesh_5fb6x")
+script = ExtResource("2_brsq0")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="sunsphere"]
+light_energy = 10.0
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="sunsphere"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
+light_energy = 10.0
+
+[node name="DirectionalLight3D3" type="DirectionalLight3D" parent="sunsphere"]
+transform = Transform3D(1, 0, 0, 0, 0.0871557, 0.996195, 0, -0.996195, 0.0871557, 0, 0, 0)
+light_energy = 10.0
+
+[node name="DirectionalLight3D4" type="DirectionalLight3D" parent="sunsphere"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+light_energy = 10.0
+
+[node name="mercuryorbit" type="Node3D" parent="sunsphere"]
+script = ExtResource("3_o8g25")
+
+[node name="mercurysphere" type="MeshInstance3D" parent="sunsphere/mercuryorbit"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 1.24915, 2.98023e-08, -0.00010559)
+mesh = SubResource("SphereMesh_brsq0")
+script = ExtResource("5_nbcmm")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.0871557, 0, -0.996195, 0, 1, 0, 0.996195, 0, 0.0871557, -7.44681, 0.0290449, 2.74138)
+fov = 114.0
+near = 0.156
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_o8g25")
+camera_attributes = SubResource("CameraAttributesPractical_nbcmm")
